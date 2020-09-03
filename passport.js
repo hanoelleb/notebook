@@ -11,14 +11,14 @@ var User = require('./models/user');
 
 passport.use( new LocalStrategy (
     function(username, password, done) {
-        User.findOne({name: username}, function(err, user) {
+        User.findOne({username: username}, function(err, user) {
             if (err) return done(err);
 
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
             }
 
-            bcrypt.compare( password, user.salted, (err, res) => {
+            bcrypt.compare( password, user.password, (err, res) => {
                 if (res) {
                     return done(null, user);
                 }

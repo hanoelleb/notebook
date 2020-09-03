@@ -9,11 +9,12 @@ require('../passport');
 var User = require('../models/user');
 
 exports.signIn = function (req, res, next) {
+
     const username = req.body.username;
     const password = req.body.password;
 
     passport.authenticate('local', {session: false}, (err, user, info) => {
-	if (info) {console.log(info.msg)}
+	if (info) {console.log(info)}
 	if (err) { return next(err); }
         if (!user) {
             return res.status(400).json({
@@ -29,11 +30,13 @@ exports.signIn = function (req, res, next) {
 }
 
 exports.signUp= function (req, res, next) {
-    const uname = req.body.username;
+    const uname = req.body.username
     const pword = req.body.password;
+    
+    console.log(uname + ' ' + pword);
 
     bcrypt.hash(pword, 10, (err, hashedPassword) => {
-        if (err) { return next(err); }
+        if (err) { console.log(err); return next(err); }
         const user = new User(
 	  {
              username: uname,
@@ -42,8 +45,8 @@ exports.signUp= function (req, res, next) {
 	);
         try {	
 	    user.save(function(err) {
-                if (err) {return next(err)}
-	        else {res.json({message: 'register'});}
+                if (err) {console.log(err); return next(err)}
+	        else {res.json({message: 'registered'});}
             });
 	} catch (error) {
             res.status(400).json({ error })
