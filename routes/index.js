@@ -26,11 +26,11 @@ router.post('/:id/notes/add',
     passport.authenticate('jwt', {session: false}),
     NoteController.create);
 
-router.post('/:id/notes/:nid/update', 
+router.post('/:id/notes/update', 
     passport.authenticate('jwt', {session: false}),
     NoteController.update);
 
-router.post('/:id/notes/:nid/remove', 
+router.post('/:id/notes/remove', 
     passport.authenticate('jwt', {session: false}),
     NoteController.remove);
 

@@ -29,9 +29,30 @@ exports.create = function (req, res, next) {
 }
 
 exports.update = function (req, res, next) {
-    res.json("update");
+    const user = req.params.id;
+    var id = req.body.id;
+    var note = new Note(
+      {
+        user: user,
+	_id: id,
+	topic: req.body.topic,
+        content: req.body.content
+      }
+    );
+
+    Note.findByIdAndUpdate(id, note, {},
+        function(err, data) {
+            if (err) return next(err);
+            res.json({note: note});
+        }
+    )
 }
 
 exports.remove = function (req, res, next) {
-    res.json("remove");
+    
+    var id = req.body.id;
+
+    Note.findByIdAndDelete(id, function deleteNote(err) {
+        if (err) return next(err);
+    })
 }
